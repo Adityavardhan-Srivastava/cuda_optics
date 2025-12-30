@@ -1,0 +1,54 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / Packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Virtual Environments
+venv/
+env/
+.env
+.venv/
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+
+# --- C++ / CUDA Build Artifacts ---
+# Ignore intermediate object files
+*.o
+*.obj
+*.lo
+*.la
+*.al
+
+# Ignore compiled executables (if any generated during testing)
+*.exe
+*.out
+*.app
+
+# --- Binary Libraries (DLLs / SOs) ---
+# 1. Ignore all binaries by default (to keep root clean)
+*.so
+*.dylib
+*.dll
+
+# 2. EXCEPTION: Explicitly track the 'bin' folder binaries
+# This allows you to ship your pre-compiled engines
+!cuda_optics/bin/*.so
+!cuda_optics/bin/*.dll
+
+# --- IDEs and Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --- Temporary / Log Files ---
+*.log
+*.tmp
