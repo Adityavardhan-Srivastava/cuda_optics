@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cuda_optics"
-version = "0.1.0"
+version = "0.1.1"
 description = "A high-performance optical ray tracer with C++ and CUDA backends."
 readme = "README.md"
 authors = [{name = "Adityavardhan Srivastava", email = "sadityavardhan1@gmail.com"}]

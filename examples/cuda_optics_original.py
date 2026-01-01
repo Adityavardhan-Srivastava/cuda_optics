@@ -956,8 +956,10 @@ class CircularAperture(OpticalElement):
 
 def generate_point_source(wavelengths, source_pos, target_element_centre, target_element_aperture, num_rays=5):
     rays = []
-    
+
     # Target geometry
+    target_element_centre = np.array(target_element_centre)
+    source_pos = np.array(source_pos)
     vec_to_target = target_element_centre - source_pos
     dist = np.linalg.norm(vec_to_target)
     base_angle = np.arctan2(vec_to_target[1], vec_to_target[0])
@@ -1163,6 +1165,7 @@ def screen_result(screen, rays, ax=None):
 # Example Run
 # ==========================================
 
+
 if __name__ == "__main__":
     
     # Elements
@@ -1213,5 +1216,5 @@ if __name__ == "__main__":
     # screen_result(screen, rays, ax)
     ax.set_aspect('equal')
     ax.grid(True, alpha=0.3)
-    ax.set_title("Vector Optics (Spherical vs Flat Separation)")
+    ax.set_title("Mirror inside Glass Slab")
     plt.show()

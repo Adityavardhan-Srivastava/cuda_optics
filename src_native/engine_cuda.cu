@@ -763,9 +763,8 @@ __device__ void interact_thin_lens(Ray& r, const Element& el, float nx, float ny
 __device__ void interact_trans_grating(Ray& r, const Element& el, float nx, float ny) {
 
     // Unpack the Parameters
-    float lines_per_mm = el.params[0];
+    float d = el.params[0];
     float order        = el.params[1];
-    float d = 1e-3f / lines_per_mm;
 
     float tx = -ny; // Calculate the tangent by rotating the normal by 90 deg anticlockwise
     float ty =  nx;
@@ -808,9 +807,8 @@ __device__ void interact_trans_grating(Ray& r, const Element& el, float nx, floa
 __device__ void interact_refl_grating(Ray& r, const Element& el, float nx, float ny) {
 
     // Unpack the Parameters
-    float lines_per_mm = el.params[0];
+    float d = el.params[0];
     float order        = el.params[1];
-    float d = 1e-3f / lines_per_mm;
 
     float tx = -ny; // Calculate the tangent by rotating the normal by 90 deg anticlockwise
     float ty =  nx;

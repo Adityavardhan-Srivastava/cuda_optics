@@ -56,18 +56,9 @@ def _get_engine(prefer_gpu):
     
     # Get the file paths for the CUDA and C++ files (Very important for the __init__ file to be in the same folder as the .so/.dll files)
     package_dir = os.path.dirname(os.path.abspath(__file__))
-    bin_dir = os.path.join(package_dir, "bin")
-
-    if platform.system() == "Windows":
-        if os.path.isdir(bin_dir) and hasattr(os, 'add_dll_directory'): # For windows to trust the DLLs
-            try:
-                os.add_dll_directory(bin_dir)
-            except Exception:
-                pass # directory might not exist during clean builds
-
     ext = ".dll" if platform.system() == "Windows" else ".so"
-    gpu_path = os.path.join(bin_dir, f"engine_cuda{ext}")
-    cpu_path = os.path.join(bin_dir, f"engine_cpp{ext}")
+    gpu_path = os.path.join(package_dir, f"engine_cuda{ext}")
+    cpu_path = os.path.join(package_dir, f"engine_cpp{ext}")
 
     # Define the Init helper Function (Sets up args for a new lib)
     def init_lib(lib_obj):
@@ -92,10 +83,8 @@ def _get_engine(prefer_gpu):
             else:
                 print(f"Warning: GPU library not found at {gpu_path}")
                 print("Falling back to CPU.")
-        except OSError as e:
-            print(f"Warning: GPU Init Failed ({e}). Falling back to CPU.")
         except Exception as e:
-            print(f"Warning: Unexpected GPU Error ({e}). Falling back to CPU.")
+            print(f"Warning: GPU Init Failed ({e}). Falling back to CPU.")
 
     # Fallback/Default to CPU
     if _ENGINES["CPU"]: return _ENGINES["CPU"] # Return cached
@@ -105,8 +94,8 @@ def _get_engine(prefer_gpu):
     if not os.path.exists(cpu_path):
 
         # Critical Error: If CPU engine is missing, the package is broken.
-        raise FileNotFoundError(f"CPU Library not found at {cpu_path}.\n"
-                                f"Directory contents of '{bin_dir}': {os.listdir(bin_dir) if os.path.isdir(bin_dir) else 'Directory Missing'}")
+        raise FileNotFoundError(f"CPU Library not found at {cpu_path}. Did you run 'pip install .'? "
+                                f"Ensure engine_cpp{ext} exists in the package folder.")
                                 
     lib = ctypes.CDLL(cpu_path)
     _ENGINES["CPU"] = init_lib(lib)
@@ -116,6 +105,8 @@ def generate_point_source(wavelengths, source_pos, target_element_centre, target
     rays = []
     
     # Target geometry
+    target_element_centre = np.array(target_element_centre)
+    source_pos = np.array(source_pos)
     vec_to_target = target_element_centre - source_pos
     dist = np.linalg.norm(vec_to_target)
     base_angle = np.arctan2(vec_to_target[1], vec_to_target[0])
@@ -546,6 +537,7 @@ class ParabolicMirror(OpticalElement):
         self.v_axis = np.array([-self.u_axis[1], self.u_axis[0]]) # Tangent (Local Y): rotated 90 deg from normal anticlockwise
         self.R_world_to_local = np.array([self.u_axis, self.v_axis]) # Rotation Matrix (World to Local)
         self.R_local_to_world = self.R_world_to_local.T # Rotation Matrix (Local to World): Transpose of above
+        self.sagitta = (self.aperture)**2 / (16 * self.focal_length)
 
     def package(self, i):
         return np.array([0, i, self.center[0], self.center[1], self.normal[0], self.normal[1], self.aperture, 
