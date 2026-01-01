@@ -57,8 +57,8 @@ def _get_engine(prefer_gpu):
     # Get the file paths for the CUDA and C++ files (Very important for the __init__ file to be in the same folder as the .so/.dll files)
     package_dir = os.path.dirname(os.path.abspath(__file__))
     ext = ".dll" if platform.system() == "Windows" else ".so"
-    gpu_path = os.path.join(package_dir, f"engine_cuda{ext}")
-    cpu_path = os.path.join(package_dir, f"engine_cpp{ext}")
+    gpu_path = os.path.join(package_dir, "bin", f"engine_cuda{ext}")
+    cpu_path = os.path.join(package_dir, "bin", f"engine_cpp{ext}")
 
     # Define the Init helper Function (Sets up args for a new lib)
     def init_lib(lib_obj):
