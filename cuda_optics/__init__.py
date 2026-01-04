@@ -377,6 +377,7 @@ def run_simulation(rays, elements, bounces, use_gpu):
         raw_path = intersection_array[start:end].reshape((bounces + 1, 2)) # Extract the slice and reshape it into a list of (x,y) pairs
         valid_mask = np.isfinite(raw_path[:, 0]) # Filter out the rows that are still -inf (bounces that never happened)
         rays[i].path = raw_path[valid_mask] # Assign the clean (N, 2) array to the ray object
+        rays[i].pos = rays[i].path[len(rays[i].path) - 1]
         
         i += 1
 

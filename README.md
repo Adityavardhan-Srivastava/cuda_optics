@@ -7,7 +7,7 @@
 
 **cuda_optics** is a high-performance ray-tracing simulation framework designed to bridge the gap between Python's approachability and raw hardware acceleration. It functions as a scriptable, 2D optical CAD library , optimized for simulating optical benches, lens barrels, and telescope/microscope designs.
 
-The system features a hybrid architecture flexible enough for any hardware environment. It serves as a **physics sandbox**, offering students, educators, hobbyists, and researchers a large selection of built-in functionalities while maintaining maximum control over ray generation and element geometry.
+The system features a hybrid architecture flexible enough for any hardware environment. It serves as a **physics sandbox**, offering students, educators, hobbyists, and researchers a large selection of built-in functionalities while maintaining maximum control over ray generation and element geometry. For detailed documentation, find the file `cuda_optics_documentation.ipynb` in the `examples` folder on my github linked below.
 
 ## Table of Contents
 - [Why use this framework?](#why-use-this-framework)
